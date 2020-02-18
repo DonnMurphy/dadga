@@ -32,12 +32,12 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Import routes
-const postsRoute = require('.routes/posts');
+const postsRoute = require('./routes/posts');
 app.use('/posts', postsRoute);
 
 //routes
 app.get('/', (req,res) => {
-  res.send('We are on home!'');
+  res.send('We are on home!');
 });
 
 

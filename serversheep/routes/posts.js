@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const POst = require('../models/Post');
+const Post = require('../models/Post');
 
 // Route Returns All Posts
 router.get('/', async (req,res) => {
   try{
     const posts = await Post.find(); //reserarch the .find mongoose method for limits/ querys etc
+    res.json(posts);
   }catch (err){
     res.json({message:err});
   }
@@ -18,7 +19,7 @@ router.get('/:postId', async (req,res) => {
   try{
   const post = await Post.findById(req.params.postId);
   res.json(post);
-}catch(err)){
+}catch(err){
   res.json({message:err});
   }
 });
@@ -27,7 +28,7 @@ router.get('/:postId', async (req,res) => {
 router.post('/', async (req,res) => {
   const post = new Post({
     title: req.body.title,
-    description: req.budy.description
+    description: req.body.description
   });
 
   try{
