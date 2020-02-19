@@ -35,6 +35,9 @@ app.use(bodyParser.json());
 const postsRoute = require('./routes/posts');
 app.use('/posts', postsRoute);
 
+const sheepRoute = require('./routes/sheep');
+app.use('/sheep', sheepRoute);
+
 //routes
 app.get('/', (req,res) => {
   res.send('We are on home!');
