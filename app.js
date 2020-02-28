@@ -38,6 +38,9 @@ app.use('/posts', postsRoute);
 const sheepRoute = require('./routes/sheep');
 app.use('/sheep', sheepRoute);
 
+
+const auctionRoute = require('./routes/auctions');
+app.use('/auctions', auctionRoute);
 //routes
 app.get('/', (req,res) => {
   res.send('We are on home!');

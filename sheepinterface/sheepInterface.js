@@ -5,211 +5,11 @@
 // author - donnacha murphy - 116433164
 
 const Web3 = require('web3');
+const mabi = require('./helperAbi.json');
 var Tx = require('ethereumjs-tx').Transaction;
 const url = 'https://ropsten.infura.io/v3/0f42ed98ccbc4d5aa6c4872ba8ebe005'
 const web3 = new Web3(url)
-const contractAddress = '0x44157C5B5369c69eFe479Df6653A343ed7E1f27F'
-//console.log("MEMES")
-const mabi = [
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "sheepId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "dna",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "hp",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "dp",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "imageAsset",
-				"type": "string"
-			}
-		],
-		"name": "NewSheep",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			}
-		],
-		"name": "createRandomSheep",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "findMySheepTotal",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_sheepId",
-				"type": "uint256"
-			}
-		],
-		"name": "getSheepById",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_owner",
-				"type": "address"
-			}
-		],
-		"name": "getSheepsByOwner",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getSheepTotal",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "sheeps",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "dna",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "hp",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "dp",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "imageAsset",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "sheepToOwner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-]
+const contractAddress = '0x8403Ed55fec623adD258B0EfA1f4fA29d54CBB6b'//'0x44157C5B5369c69eFe479Df6653A343ed7E1f27F'
 
 const contract = new web3.eth.Contract(mabi, contractAddress);
 console.log(web3.eth.accounts.privateKeyToAccount('104a60a46b9ec313dadea0b413a19eb113eb30ef1f08f5d4f36c24fc31a44536'));
@@ -253,47 +53,217 @@ class SheepInterface{
 	}
 
 
+//-----------------------------------------------
+	// Methods for Auction Samrt Contracts
+
+	// Note Returns All Auctions in Existence
+	async getAllAuctions(){
+	  var auctionArr = []
+	  let totalAuctions = await contract.methods.getTotalAuctions().call((err,result) => {
+			 console.log("totes aucks", result)
+			 return result
+		 });
+
+	  console.log(totalAuctions)
+	  for(var i = 0; i < totalAuctions; i++){
+	   let tempAuction = await contract.methods.getAuctionById(i).call((err, resultAuction) => {
+			 console.log("Temp Auctions:" +resultAuction);
+			 return resultAuction
+		 });
+			 auctionArr.push(tempAuction)
+	  }
+		console.log(auctionArr)
+	  return auctionArr
+	}
+
+	// Note Returns All Auctions in Existence
+	async getAllLiveAuctions(){
+		var auctionArr = []
+		let totalAuctions = await contract.methods.getTotalAuctions().call((err,result) => {
+			 console.log("totes aucks", result)
+			 return result
+		 });
+
+		console.log(totalAuctions)
+		for(var i = 0; i < totalAuctions; i++){
+		 let tempAuctions = await contract.methods.getAuctionById(i).call((err, resultAuction) => {
+			 console.log("Temp Auction "+resultAuction);
+			 return resultAuction
+		 });
+
+		 let isActive = await contract.methods.isAuctionActive(i).call((err, active) => {
+			console.log("Auction:" + i + " is live:"  +active);
+			return active
+		});
+
+		 if(isActive == true){
+			 auctionArr.push(tempAuctions)
+		 }
+		}
+		console.log(auctionArr)
+		return auctionArr
+	}
+
+	// Note Returns All Auctions in Existence
+	async getAllAuctionsByOwner(ownerId){
+		var auctionArr = []
+		let totalAuctions = await contract.methods.getTotalAuctions().call((err,result) => {
+			 console.log("totes aucks owner", result)
+			 return result
+		 });
+
+		console.log(totalAuctions)
+		for(var i = 0; i < totalAuctions; i++){
+		 let tempAuctions = await contract.methods.getAuctionById(i).call((err, resultAuction) => {
+			 console.log("Temp Auction OWNERs:" +resultAuction);
+			 //return resultAuction
+			 console.log(resultAuction["0"]);
+			if(resultAuction["0"] == ownerId){
+				auctionArr.push(resultAuction)
+			}
+		 });
+
+		}
+		console.log(auctionArr)
+		return auctionArr
+	}
+
+  // Note Returns All Auctions in Existence
+  async getAuctionById(auctionId){
+		let auction = await contract.methods.getAuctionById(auctionId).call((err, resulta) => {
+			console.log(resulta);
+			return resulta
+		});
+ console.log("MEMES" + auction);
+	//
+		return auction;
+	}
+
+	async createAuction (ownerId, sheepId, startPrice, endPrice, duration) {
+    console.log("HOLY MARY MOTHER OF GOD WORK");
+    //NOTE CHANGE THIS TO ownerOf
+		let isOwner = await contract.methods._owns(ownerId, sheepId).call((err,result) => {
+			 console.log("totes aucks", result)
+			 return result
+		 });
+		//TODO NEED TO SET A CONVERT DURATION TO SECONDS
+	//	console.log("OWNER " + ownerId);
+	//	await contract.methods.ownerOF(sheepId);
+	//	console.log(isOwner);
+		if(isOwner == true){
+			// Transfer some tokens
+		  console.log("ADDRESS Auction Create" + account1 )
+      console.log("Sheep: " +sheepId)
+		  //console.log("Contract Address:: " + contractAddress )
+			let data = await contract.methods.createSaleAuction(sheepId, startPrice, endPrice, duration, ownerId).encodeABI();
+      console.log(data);
+			this.createEthTransaction(data);
+		}
+	}
+
+	async bidOnAuction (sheepId, bidAmount, bidderId) {
+    //FIRSTLY THERE IS NO SHEEP ID YET ITS AUCTION ID
+    // EITHER PULL IN SHEEP OR SWITCH TO GET AUCTION SELLER
+		let isOwner = await contract.methods._owns(bidderId, sheepId).call((err, resultOwner) => {
+			console.log("Owner :" +resultOwner);
+			return resultOwner
+		});
+		//TODO NEED TO SET A CONVERT DURATION TO SECONDS
+		// Need to pull in current price and compare it as there is no return if the method fails in the smart contract
+		if(isOwner == false){
+			// Transfer some tokens
+		  console.log("ADDRESS" + account1 )
+			//console.log("Contract Address:: " + contractAddress )
+			let data = await contract.methods.bid(sheepId, bidAmount, bidderId).encodeABI()
+			this.createEthTransaction(data);
+			console.log("transaction made")
+		}
+	}
+	//////async getSheepOwner(sheepId){
+		//psudocode needs implemntation
+	//	let sheepOwner = await contract.methods.getSheepById(sheepId).call((err, resulta) => {
+	//		console.log(resulta);
+		//	return resulta
+	//	});
+ //console.log("MEMES" + sheepie);
+	//
+	//	return sheepie;
+	//}
+	durationToSeconds(durationString){
+		//Psudo Code clean up
+		var timeVal = durationString.split(1);
+		var unitVal = durationString.split(2);
+		//ImplmentSwitchStatment here
+		//switch unit:
+
+	}
+
 	async createNewSheep (name){
 	  // Transfer some tokens
 	  console.log("ADDRESS" + account1 )
 	  console.log("Contract Address:: " + contractAddress )
 		let createResult = "0x BAAAAAD Creation";
-	  web3.eth.getTransactionCount(account1, async (err, txCount) => {
 
-	  const txObject = {
-	    nonce:    web3.utils.toHex(txCount),
-	    gasLimit: web3.utils.toHex(400000), // Raise the gas limit to a much higher amount
-	    gasPrice: web3.utils.toHex(web3.utils.toWei('5', 'gwei')),
-	    to: contractAddress,
-	    data: contract.methods.createRandomSheep(name).encodeABI()
-	  }
-
-	  const tx = new Tx(txObject,{chain:'ropsten', hardfork: 'petersburg'});
-	  tx.sign(privateKey1)
-
-	  const serializedTx = tx.serialize()
-	  const raw = '0x' + serializedTx.toString('hex')
-
-	 var transactionResult = web3.eth.sendSignedTransaction(raw, (err, txHash) => {
-	    console.log('err:', err, 'txHash:', txHash)
-			createResult = txHash;
-			return txHash;
-	    // Use this txHash to find the contract on Etherscan!
-	  }).catch(error => {
-	    console.log('Success?', error)
-			return error;
-
-	  })
-		// NOTE GOT THIS RETURN WRONG SINCE FUNCTION IS NOT ASYNC - just remove
-		console.log("Transaction:" +transactionResult)
-		return transactionResult;
-	})
-	console.log("Create:" +createResult);
-	return createResult;
+		var data;
+		data = await contract.methods.createRandomSheep(name).encodeABI();
+		this.createEthTransaction(data);
 	}
 
+	async createEthTransaction(methodData){
+		// Transfer some tokens
+	 console.log("ADDRESS" + account1 )
+	 console.log("Contract Address:: " + contractAddress )
+	 let createResult = "0x BAAAAAD Creation";
+	 web3.eth.getTransactionCount(account1, async (err, txCount) => {
 
+	 const txObject = {
+		 nonce:    web3.utils.toHex(txCount),
+		 gasLimit: web3.utils.toHex(400000), // Raise the gas limit to a much higher amount
+		 gasPrice: web3.utils.toHex(web3.utils.toWei('5', 'gwei')),
+		 to: contractAddress,
+		 data: methodData
+	 }
+	 console.log("GOT TO TX OBJECT" + methodData )
+	 const tx = new Tx(txObject,{chain:'ropsten', hardfork: 'petersburg'});
+	 tx.sign(privateKey1)
+
+	 const serializedTx = tx.serialize()
+	 const raw = '0x' + serializedTx.toString('hex')
+
+	var transactionResult = web3.eth.sendSignedTransaction(raw, (err, txHash) => {
+		 console.log('err:', err, 'txHash:', txHash)
+		 createResult = txHash;
+		 return txHash;
+		 // Use this txHash to find the contract on Etherscan!
+	 }).catch(error => {
+		 console.log('Success?', error)
+		 return error;
+
+	 })
+	 // NOTE GOT THIS RETURN WRONG SINCE FUNCTION IS NOT ASYNC - just remove
+	 console.log("Transaction:" +transactionResult)
+	 return transactionResult;
+ })
+ console.log("Create:" +createResult);
+ return createResult;
+	}
+
+	async newCreateNewSheep(){
+		var name = "Doyler The Seshhead";
+		var data;
+		data = await contract.methods.createRandomSheep(name).encodeABI();
+		this.createEthTransaction(data);
+	}
 }
 // END OF CLASS DEFINATION
 
+//sheepTest = new SheepInterface;
+//sheepTest.createNewSheep("Sam The Accountant");
+//sheepTest.createAuction("RELEASED", 3, 1000, 100, 3600);
+
+//sheepTest.bidOnAuction(3, 980, "DONIE");
+
 module.exports = SheepInterface;
+//sheepTest.getAllAuctions();
+//sheepTest.getAllLiveAuctions();
+//sheepTest.getAllAuctionsByOwner("RELEASED");

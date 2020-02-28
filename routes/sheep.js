@@ -36,7 +36,7 @@ router.get('/owner/:ownerId', async (req,res) => {
   //res.send('We are on specific!');
   //console.log(req.params.sheepId);
   try{
-  const sheep = await Sheep.findById(req.params.sheepId);
+  const sheep = await sheepFace.getSheepByOwner(req.params.ownerId);//await Sheep.findById(req.params.sheepId);
   res.json(sheep);
 }catch(err){
   res.json({message:err});
