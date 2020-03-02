@@ -71,9 +71,9 @@ router.post('/', async (req,res) => {
   //});
 
   try{
-    console.log("Auction Creation Started for: " + req.body.sheepId);
-    console.log("Auction Duration is: " + req.body.auctionDuration);
-    let savedSheep = await sheepFace.createAuction(req.body.userId, req.body.sheepId, parseInt(req.body.startingPrice), parseInt(req.body.endingPrice), parseInt(req.body.auctionDuration));
+    console.log("Auction Creation Started for: " + req.params.sheepId);
+    console.log("Auction Duration is: " + req.params.auctionDuration);
+    let savedSheep = await sheepFace.createAuction(req.params.userId, req.params.sheepId, parseInt(req.params.startingPrice), parseInt(req.params.endingPrice), parseInt(req.params.auctionDuration));
     res.json(savedSheep);
   }catch (err){
     res.json({message: err});
