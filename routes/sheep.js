@@ -43,6 +43,38 @@ router.get('/owner/:ownerId', async (req,res) => {
   }
 });
 
+router.post('/register', async (req,res) => {
+  //const sheep = new Sheep({
+  //  title: req.body.title,
+  //  description: req.body.description
+  //});
+  try{
+    console.log("Register Sheep Started For: " + req.body.sheep_id + req.body.user_id);
+    let savedSheep = await sheepFace.registerSheep(req.body.user_id, req.body.sheep_id);
+      //NOTE THIS DOES NOT SEEM TO RETURN ANYTHING - SHOULD DO SOMETHING ABOUT THAT
+    res.json(savedSheep);
+  }catch (err){
+    res.json({message: err});
+  }
+  //console.log(req.body);
+});
+
+router.post('/release', async (req,res) => {
+  //const sheep = new Sheep({
+  //  title: req.body.title,
+  //  description: req.body.description
+  //});
+  try{
+    console.log("RELEASE Sheep Started For: " + req.body.sheep_id + req.body.user_id);
+    let savedSheep = await sheepFace.releaseSheep(req.body.user_id, req.body.sheep_id);
+    //NOTE THIS DOES NOT SEEM TO RETURN ANYTHING - SHOULD DO SOMETHING ABOUT THAT
+    res.json(savedSheep);
+  }catch (err){
+    res.json({message: err});
+  }
+  //console.log(req.body);
+});
+
 // --------------------------- Figure everything below later -------------------
 
 // Route Submits New Sheep

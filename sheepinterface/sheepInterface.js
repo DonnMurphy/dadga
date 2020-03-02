@@ -9,13 +9,13 @@ const mabi = require('./helperAbi.json');
 var Tx = require('ethereumjs-tx').Transaction;
 const url = 'https://ropsten.infura.io/v3/0f42ed98ccbc4d5aa6c4872ba8ebe005'
 const web3 = new Web3(url)
-const contractAddress = '0x8403Ed55fec623adD258B0EfA1f4fA29d54CBB6b'//'0x44157C5B5369c69eFe479Df6653A343ed7E1f27F'
+const contractAddress = '0xA529C33933349f5504DC892Fe1929e8251Fa9489'//'0x8403Ed55fec623adD258B0EfA1f4fA29d54CBB6b'//'0x44157C5B5369c69eFe479Df6653A343ed7E1f27F'
 
 const contract = new web3.eth.Contract(mabi, contractAddress);
 console.log(web3.eth.accounts.privateKeyToAccount('104a60a46b9ec313dadea0b413a19eb113eb30ef1f08f5d4f36c24fc31a44536'));
 const account1 = '0x1B6e1cdF8cBDac646dD548E46B8FE0A8b7B72852';
-const privateKey1 = Buffer.from('59675267A950E89A2BB4CB35A46F738C5BB3BA387AD6279F8A4EE5A187159774', 'hex')
-
+const privateKey1 = Buffer.from('59675267A950E89A2BB4CB35A46F738C5BB3BA387AD6279F8A4EE5A187159774', 'hex');
+const releasedUserId = "RELEASED";
 web3.eth.getBalance(account1).then(bal => {
   console.log("Ropsten Eth Remaining in Account" + bal);
 });
@@ -159,6 +159,17 @@ class SheepInterface{
 		return auction;
 	}
 
+  // Returns Current Price
+  async getAuctionCurrentPrice(tokenId){
+		let current_price = await contract.methods.getCurrentPrice(tokenId).call((err, resulta) => {
+			console.log(resulta);
+			return resulta
+		});
+ console.log("MEMES" + current_price);
+	//
+		return current_price;
+	}
+
 	async createAuction (ownerId, sheepId, startPrice, endPrice, duration) {
     console.log("HOLY MARY MOTHER OF GOD WORK");
     //NOTE CHANGE THIS TO ownerOf
@@ -181,6 +192,52 @@ class SheepInterface{
 		}
 	}
 
+  async registerSheep(ownerId, sheepId) {
+    console.log("HOLY MARY MOTHER OF GOD WORK REGISTER");
+    //NOTE CHANGE THIS TO ownerOf
+
+    let isReleased = await contract.methods._owns(releasedUserId, sheepId).call((err,result) => {
+       console.log("totes aucks", result)
+       return result
+     });
+    //TODO NEED TO SET A CONVERT DURATION TO SECONDS
+  //	console.log("OWNER " + ownerId);
+  //	await contract.methods.ownerOF(sheepId);
+  //	console.log(isOwner);
+    if(isReleased == true){
+      // Transfer some tokens
+      console.log("ADDRESS Registering A New Sheep" + account1 )
+      console.log("Sheep: " +sheepId)
+      //console.log("Contract Address:: " + contractAddress )
+      let data = await contract.methods.registerReleasedSheep(ownerId,sheepId).encodeABI();
+      console.log(data);
+      this.createEthTransaction(data);
+    }
+  }
+
+  async releaseSheep(ownerId, sheepId) {
+    console.log("HOLY MARY MOTHER OF GOD WORK REGISTER");
+    //NOTE CHANGE THIS TO ownerOf
+
+    let isOwner = await contract.methods._owns(ownerId, sheepId).call((err,result) => {
+       console.log("totes aucks", result)
+       return result
+     });
+    //TODO NEED TO SET A CONVERT DURATION TO SECONDS
+  //	console.log("OWNER " + ownerId);
+  //	await contract.methods.ownerOF(sheepId);
+  //	console.log(isOwner);
+    if(isOwner == true){
+      // Transfer some tokens
+      console.log("ADDRESS Registering A New Sheep" + account1 )
+      console.log("Sheep: " +sheepId)
+      //console.log("Contract Address:: " + contractAddress )
+      let data = await contract.methods.releaseRegisteredSheep(ownerId,sheepId).encodeABI();
+      console.log(data);
+      this.createEthTransaction(data);
+    }
+  }
+
 	async bidOnAuction (sheepId, bidAmount, bidderId) {
     //FIRSTLY THERE IS NO SHEEP ID YET ITS AUCTION ID
     // EITHER PULL IN SHEEP OR SWITCH TO GET AUCTION SELLER
@@ -195,6 +252,25 @@ class SheepInterface{
 		  console.log("ADDRESS" + account1 )
 			//console.log("Contract Address:: " + contractAddress )
 			let data = await contract.methods.bid(sheepId, bidAmount, bidderId).encodeABI()
+			this.createEthTransaction(data);
+			console.log("transaction made")
+		}
+	}
+
+  async cancelActiveAuction (sheepId, sellerId) {
+    //FIRSTLY THERE IS NO SHEEP ID YET ITS AUCTION ID
+    // EITHER PULL IN SHEEP OR SWITCH TO GET AUCTION SELLER
+		let isOwner = await contract.methods._owns(sellerId, sheepId).call((err, resultOwner) => {
+			console.log("Owner :" +resultOwner);
+			return resultOwner
+		});
+		//TODO NEED TO SET A CONVERT DURATION TO SECONDS
+		// Need to pull in current price and compare it as there is no return if the method fails in the smart contract
+		if(isOwner == true){
+			// Transfer some tokens
+		  console.log("ADDRESS" + account1 )
+			//console.log("Contract Address:: " + contractAddress )
+			let data = await contract.methods.cancelAuction(sheepId, sellerId).encodeABI()
 			this.createEthTransaction(data);
 			console.log("transaction made")
 		}

@@ -268,19 +268,24 @@
 		"name": "auctions",
 		"outputs": [
 			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
 				"internalType": "string",
 				"name": "seller",
 				"type": "string"
 			},
 			{
-				"internalType": "uint128",
+				"internalType": "uint256",
 				"name": "startingPrice",
-				"type": "uint128"
+				"type": "uint256"
 			},
 			{
-				"internalType": "uint128",
+				"internalType": "uint256",
 				"name": "endingPrice",
-				"type": "uint128"
+				"type": "uint256"
 			},
 			{
 				"internalType": "uint64",
@@ -291,6 +296,26 @@
 				"internalType": "uint64",
 				"name": "startedAt",
 				"type": "uint64"
+			},
+			{
+				"internalType": "string",
+				"name": "auctionStatus",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "finalBidPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "auctionId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "auctionWinner",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -446,6 +471,11 @@
 		"name": "getAuction",
 		"outputs": [
 			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
 				"internalType": "string",
 				"name": "seller",
 				"type": "string"
@@ -468,6 +498,21 @@
 			{
 				"internalType": "uint256",
 				"name": "startedAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "auctionStatus",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "winningBidPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "auctionId",
 				"type": "uint256"
 			}
 		],
@@ -485,6 +530,11 @@
 		"name": "getAuctionById",
 		"outputs": [
 			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
 				"internalType": "string",
 				"name": "seller",
 				"type": "string"
@@ -507,6 +557,40 @@
 			{
 				"internalType": "uint256",
 				"name": "startedAt",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "auctionStatus",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "winningBidPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "auctionId",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "getAuctionByTokenId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
 				"type": "uint256"
 			}
 		],
@@ -544,37 +628,37 @@
 		"outputs": [
 			{
 				"internalType": "string",
-				"name": "",
+				"name": "sheep_name",
 				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "sheep_uid",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "sheep_hp",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "sheep_dp",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "sheep_dna",
 				"type": "uint256"
 			},
 			{
 				"internalType": "string",
-				"name": "",
+				"name": "sheep_imagelink",
 				"type": "string"
 			},
 			{
 				"internalType": "string",
-				"name": "",
+				"name": "sheep_ownerid",
 				"type": "string"
 			}
 		],
@@ -675,6 +759,60 @@
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_to",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "registerReleasedSheep",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_from",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "releaseRegisteredSheep",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_sheepId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_newImageLink",
+				"type": "string"
+			}
+		],
+		"name": "setImageLink",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{

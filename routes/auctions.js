@@ -42,7 +42,22 @@ router.get('/:auctionId', async (req,res) => {
   //res.send('We are on specific!');
   console.log(req.params.auctionId);
   try{
+    //NOTE INVESTIGATE IF THIS IS ACTUALLY AUCITON ID OR TOKEN ID
   var auction = await sheepFace.getAuctionById(req.params.auctionId);
+  // await Sheep.findById(req.params.auctionId);
+  res.json(auction);
+}catch(err){
+  res.json({message:err});
+  }
+});
+
+// Route Returns Current Price for Sheep
+router.get('/:token_id/price', async (req,res) => {
+  //res.send('We are on specific!');
+  console.log(req.params.token_id);
+  try{
+    //NOTE INVESTIGATE IF THIS IS ACTUALLY AUCITON ID OR TOKEN ID
+  var auction = await sheepFace.getAuctionCurrentPrice(req.params.token_id);
   // await Sheep.findById(req.params.auctionId);
   res.json(auction);
 }catch(err){
@@ -73,7 +88,7 @@ router.post('/', async (req,res) => {
   try{
     console.log("Auction Creation Started for: " + req.body.sheepId);
     console.log("Auction Duration is: " + req.body.auctionDuration);
-    let savedSheep = await sheepFace.createAuction(req.body.userId, req.body.sheepId, parseInt(req.body.startingPrice), parseInt(req.body.endingPrice), parseInt(req.body.auctionDuration));
+    let savedSheep = await sheepFace.createAuction(req.body.user_id, req.body.sheep_id, parseInt(req.body.starting_price), parseInt(req.body.ending_price), parseInt(req.body.auction_duration));
     res.json(savedSheep);
   }catch (err){
     res.json({message: err});
@@ -90,9 +105,9 @@ router.post('/bid', async (req,res) => {
   //});
 
   try{
-    console.log("Bidding On Auction: " + req.body.sheepId);
+    console.log("Bidding On Auction: " + req.body.sheep_id);
     //NOTE TRANSACTION REVERTS IN EVM IF VAL IS BELOW CURRENT PRICE NEED TO GET CURRENT PRICE AT MOMENT
-    let savedSheep = await sheepFace.bidOnAuction(req.body.sheepId, req.body.bidAmount , req.body.bidderId);
+    let savedSheep = await sheepFace.bidOnAuction(req.body.sheep_id, req.body.bid_amount , req.body.bidder_id);
     res.json(savedSheep);
   }catch (err){
     res.json({message: err});
