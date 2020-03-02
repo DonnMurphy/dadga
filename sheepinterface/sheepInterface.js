@@ -42,6 +42,26 @@ class SheepInterface{
 	  return sheepArr
 	}
 
+  async getSheepByOwner(ownerId){
+    var sheepArr = []
+    //var sheepOwnedArr = []
+    let sheepOwnedArr = await contract.methods.getSheepsByOwner(ownerId).call((err,result) => {
+       console.log("totes", result)
+       return result
+     });
+
+    console.log(sheepOwnedArr);
+    for(var i = 0; i < sheepOwnedArr.length; i++){
+     let tempSheep = await contract.methods.getSheepById(sheepOwnedArr[i]).call((err, resulta) => {
+       console.log("Temp Sheep:" +resulta);
+       return resulta
+     });
+       sheepArr.push(tempSheep)
+    }
+    console.log(sheepArr)
+    return sheepArr
+  }
+
 	async getSheepById(sheepId){
 		let sheepie = await contract.methods.getSheepById(sheepId).call((err, resulta) => {
 			console.log(resulta);
@@ -264,6 +284,8 @@ class SheepInterface{
 //sheepTest.bidOnAuction(3, 980, "DONIE");
 
 module.exports = SheepInterface;
+//sheepTest.getSheepByOwner("RELEASED");
+
 //sheepTest.getAllAuctions();
 //sheepTest.getAllLiveAuctions();
 //sheepTest.getAllAuctionsByOwner("RELEASED");
