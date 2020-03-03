@@ -86,9 +86,10 @@ router.post('/', async (req,res) => {
   //});
 
   try{
-    console.log("Auction Creation Started for: " + req.body.sheepId);
-    console.log("Auction Duration is: " + req.body.auctionDuration);
-    let savedSheep = await sheepFace.createAuction(req.body.user_id, req.body.sheep_id, parseInt(req.body.starting_price), parseInt(req.body.ending_price), parseInt(req.body.auction_duration));
+    //NOTE SWITCH CONSOLE MESSAGES TO LIST OUT PARAMS INSTEAD
+    console.log("Auction Creation Started for: " + req.body.sheep_id);
+    console.log("Auction Duration is: " + req.body.auction_duration);
+    let savedSheep = await sheepFace.createAuction( req.body.sheep_id, parseInt(req.body.starting_price), parseInt(req.body.ending_price), parseInt(req.body.auction_duration), req.body.user_id);
     res.json(savedSheep);
   }catch (err){
     res.json({message: err});
