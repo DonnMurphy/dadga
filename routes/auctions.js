@@ -86,10 +86,10 @@ router.post('/', async (req,res) => {
   //});
 
   try{
-    //NOTE SWITCH CONSOLE MESSAGES TO LIST OUT PARAMS INSTEAD
+    //NOTE SWITCH CONSOLE MESSAGES TO LIST OUT PARAMS INSTE
     console.log("Auction Creation Started for: " + req.body.sheep_id);
     console.log("Auction Duration is: " + req.body.auction_duration);
-    let savedSheep = await sheepFace.createAuction( req.body.sheep_id, parseInt(req.body.starting_price), parseInt(req.body.ending_price), parseInt(req.body.auction_duration), req.body.user_id);
+    let savedSheep = await sheepFace.createAuction(req.body.user_id, req.body.sheep_id, parseInt(req.body.starting_price), parseInt(req.body.ending_price), parseInt(req.body.auction_duration));
     res.json(savedSheep);
   }catch (err){
     res.json({message: err});
