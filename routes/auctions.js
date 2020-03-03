@@ -59,7 +59,7 @@ router.get('/:token_id/price', async (req,res) => {
     //NOTE INVESTIGATE IF THIS IS ACTUALLY AUCITON ID OR TOKEN ID
   var auction = await sheepFace.getAuctionCurrentPrice(req.params.token_id);
   // await Sheep.findById(req.params.auctionId);
-  res.json(auction);
+  res.json({price:auction});
 }catch(err){
   res.json({message:err});
   }
