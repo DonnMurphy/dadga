@@ -514,6 +514,11 @@
 				"internalType": "uint256",
 				"name": "auctionId",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "auctionWinner",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -573,6 +578,11 @@
 				"internalType": "uint256",
 				"name": "auctionId",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "auctionWinner",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -586,7 +596,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "getAuctionByTokenId",
+		"name": "getAuctionIDByTokenId",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -627,6 +637,11 @@
 		"name": "getSheepById",
 		"outputs": [
 			{
+				"internalType": "uint256",
+				"name": "sheep_id",
+				"type": "uint256"
+			},
+			{
 				"internalType": "string",
 				"name": "sheep_name",
 				"type": "string"
@@ -660,6 +675,11 @@
 				"internalType": "string",
 				"name": "sheep_ownerid",
 				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "sheep_mint_time",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -863,6 +883,11 @@
 		],
 		"name": "sheeps",
 		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
 			{
 				"internalType": "string",
 				"name": "name",
