@@ -116,6 +116,25 @@ router.post('/bid', async (req,res) => {
   //console.log(req.body);
 });
 
+// Route Submits New Sheep
+router.post('/cancel', async (req,res) => {
+  //const auction = new Sheep({
+  //  title: req.body.title,
+  //  description: req.body.description
+  //});
+
+  try{
+    console.log("Cancelling Auction: " + req.body.sheep_id + " For User: " +  req.body.seller_id);
+    //NOTE TRANSACTION REVERTS IN EVM IF VAL IS BELOW CURRENT PRICE NEED TO GET CURRENT PRICE AT MOMENT
+    let savedSheep = await sheepFace.cancelActiveAuction(req.body.sheep_id, req.body.seller_id);
+    console.log("CANCEL AUCTION RESPONSE: " + savedSheep)
+    res.json(savedSheep);
+  }catch (err){
+    res.json({message: err});
+  }
+  //console.log(req.body);
+});
+
 // --------------------------- Figure everything below later -------------------
 
 //update a auction -- Dont need this really?

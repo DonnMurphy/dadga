@@ -271,7 +271,8 @@ class SheepInterface{
 		  console.log("ADDRESS" + account1 )
 			//console.log("Contract Address:: " + contractAddress )
 			let data = await contract.methods.cancelAuction(sheepId, sellerId).encodeABI()
-			this.createEthTransaction(data);
+			let response = await this.createEthTransaction(data);
+      return response;
 			console.log("transaction made")
 		}
 	}
