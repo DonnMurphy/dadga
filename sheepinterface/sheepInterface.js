@@ -266,7 +266,7 @@ class SheepInterface{
 		});
 		//TODO NEED TO SET A CONVERT DURATION TO SECONDS
 		// Need to pull in current price and compare it as there is no return if the method fails in the smart contract
-		if(isOwner == true){
+	//	if(isOwner == true){
 			// Transfer some tokens
 		  console.log("ADDRESS" + account1 )
 			//console.log("Contract Address:: " + contractAddress )
@@ -274,7 +274,7 @@ class SheepInterface{
 			let response = await this.createEthTransaction(data);
       return response;
 			console.log("transaction made")
-		}
+	//	}
 	}
 	//////async getSheepOwner(sheepId){
 		//psudocode needs implemntation
