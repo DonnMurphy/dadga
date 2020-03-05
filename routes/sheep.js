@@ -49,7 +49,7 @@ router.get('/owner/:ownerId', async (req,res) => {
 //Route Registers a Released Sheep
 router.post('/register', async (req,res) => {
   try{
-    console.log("Sheep Registration Started For SheepId: " + req.body.sheep_id + " To User: "req.body.user_id);
+    console.log("Sheep Registration Started For SheepId: " + req.body.sheep_id + " To User: " +req.body.user_id);
     let savedSheep = await sheepFace.registerSheep(req.body.user_id, req.body.sheep_id);
       //NOTE THIS DOES NOT SEEM TO RETURN ANYTHING - SHOULD DO SOMETHING ABOUT THAT
     console.log(savedSheep);
@@ -62,7 +62,7 @@ router.post('/register', async (req,res) => {
 //Route Releases An Owned Sheep
 router.post('/release', async (req,res) => {
   try{
-    console.log("Sheep Registration Started For SheepId: " + req.body.sheep_id + " From User: "req.body.user_id);
+    console.log("Sheep Registration Started For SheepId: " + req.body.sheep_id + " From User: " +req.body.user_id);
     let savedSheep = await sheepFace.releaseSheep(req.body.user_id, req.body.sheep_id);
     //NOTE THIS DOES NOT SEEM TO RETURN ANYTHING - SHOULD DO SOMETHING ABOUT THAT
     console.log(savedSheep);
