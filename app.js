@@ -32,8 +32,6 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Import routes
-const postsRoute = require('./routes/posts');
-app.use('/posts', postsRoute);
 
 const sheepRoute = require('./routes/sheep');
 app.use('/sheep', sheepRoute);
