@@ -12,6 +12,8 @@ const sheepFace = new SheepInterface;
 router.get('/', async (req,res) => {
   try{
     const sheeps = await sheepFace.getAllSheep();//await Sheep.find(); //reserarch the .find mongoose method for limits/ querys etc
+    console.log("Call For All Sheep Ever Created");
+    console.log(sheeps);
     res.json(sheeps);
   }catch (err){
     res.json({message:err});
@@ -21,88 +23,78 @@ router.get('/', async (req,res) => {
 // Route Returns Specifc Sheep
 router.get('/:sheepId', async (req,res) => {
   //res.send('We are on specific!');
-  console.log(req.params.sheepId);
+  console.log("Call For Specific Sheep Of Id: " + req.params.sheepId);
+
   try{
-  var sheep = await sheepFace.getSheepById(req.params.sheepId);
-  // await Sheep.findById(req.params.sheepId);
-  res.json(sheep);
-}catch(err){
-  res.json({message:err});
+    var sheep = await sheepFace.getSheepById(req.params.sheepId);
+    console.log(sheep);
+    res.json(sheep);
+  }catch(err){
+    res.json({message:err});
   }
 });
 
-// Route Returns Specifc Sheep
+// Route Returns All Sheep Owned By Owner
 router.get('/owner/:ownerId', async (req,res) => {
-  //res.send('We are on specific!');
-  //console.log(req.params.sheepId);
+  console.log("Call For All Sheeps From Owner: " + req.params.ownerid);
   try{
-  const sheep = await sheepFace.getSheepByOwner(req.params.ownerId);//await Sheep.findById(req.params.sheepId);
-  res.json(sheep);
-}catch(err){
-  res.json({message:err});
+    const sheep = await sheepFace.getSheepByOwner(req.params.ownerId);//await Sheep.findById(req.params.sheepId);
+    console.log(sheep);
+    res.json(sheep);
+  }catch(err){
+    res.json({message:err});
   }
 });
 
+//Route Registers a Released Sheep
 router.post('/register', async (req,res) => {
-  //const sheep = new Sheep({
-  //  title: req.body.title,
-  //  description: req.body.description
-  //});
   try{
-    console.log("Register Sheep Started For: " + req.body.sheep_id + req.body.user_id);
+    console.log("Sheep Registration Started For SheepId: " + req.body.sheep_id + " To User: "req.body.user_id);
     let savedSheep = await sheepFace.registerSheep(req.body.user_id, req.body.sheep_id);
       //NOTE THIS DOES NOT SEEM TO RETURN ANYTHING - SHOULD DO SOMETHING ABOUT THAT
+    console.log(savedSheep);
     res.json(savedSheep);
   }catch (err){
     res.json({message: err});
   }
-  //console.log(req.body);
 });
 
+//Route Releases An Owned Sheep
 router.post('/release', async (req,res) => {
-  //const sheep = new Sheep({
-  //  title: req.body.title,
-  //  description: req.body.description
-  //});
   try{
-    console.log("RELEASE Sheep Started For: " + req.body.sheep_id + req.body.user_id);
+    console.log("Sheep Registration Started For SheepId: " + req.body.sheep_id + " From User: "req.body.user_id);
     let savedSheep = await sheepFace.releaseSheep(req.body.user_id, req.body.sheep_id);
     //NOTE THIS DOES NOT SEEM TO RETURN ANYTHING - SHOULD DO SOMETHING ABOUT THAT
+    console.log(savedSheep);
     res.json(savedSheep);
   }catch (err){
     res.json({message: err});
   }
-  //console.log(req.body);
 });
 
-// --------------------------- Figure everything below later -------------------
-
-// Route Submits New Sheep
-router.post('/', async (req,res) => {
-  //const sheep = new Sheep({
-  //  title: req.body.title,
-  //  description: req.body.description
-  //});
-
+//Route Releases An Owned Sheep
+router.post('/:sheepId/transfer', async (req,res) => {
   try{
-    console.log("Create SHeep Started for: " + req.body.name);
+    console.log("Sheep Transfer Started For SheepId: " + req.body.sheep_id + " From User: "req.body.from_id + " To User: "req.body.to_id);
+    let savedSheep = await sheepFace.releaseSheep(req.body.from_id,req.body.to_id, req.body.sheep_id);
+    //NOTE THIS DOES NOT SEEM TO RETURN ANYTHING - SHOULD DO SOMETHING ABOUT THAT
+    console.log(savedSheep);
+    res.json(savedSheep);
+  }catch (err){
+    res.json({message: err});
+  }
+});
+
+// Route Creates New Sheep
+//NOTE COULD DO SOMETHING GOOG WITH THIS
+router.post('/', async (req,res) => {
+  try{
+    console.log("Create Sheep Started for: " + req.body.name);
     let savedSheep = await sheepFace.createNewSheep(req.body.name);
     res.json(savedSheep);
   }catch (err){
     res.json({message: err});
   }
-  //console.log(req.body);
 });
-
-
-//update a sheep -- Dont need this really?
-router.patch("/:sheepId", async (req,res) => {
-  try{
-  const updatedSheep = await Sheep.updateOne({_id: res.param.sheepId}, {$set: {title:req.body.title }});
-  res.json(updatedSheep);
-  }catch(err){
-  res.json({message:err});
-}
-})
 
 module.exports = router;

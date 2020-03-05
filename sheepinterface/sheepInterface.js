@@ -26,18 +26,19 @@ class SheepInterface{
 	async getAllSheep(){
 	  var sheepArr = []
 	  let totalSheep = await contract.methods.getSheepTotal().call((err,result) => {
-			 console.log("totes", result)
+			 console.log("Num Sheep In Existence: ", result)
 			 return result
 		 });
 
-	  console.log(totalSheep)
+
 	  for(var i = 0; i < totalSheep; i++){
 	   let tempSheep = await contract.methods.getSheepById(i).call((err, resulta) => {
-			 console.log("Temp Sheep:" +resulta);
+			 console.log("Temp Sheep Created For:" +resulta);
 			// return resulta
 		 });
 			 sheepArr.push(tempSheep)
 	  }
+    console.log("Returning Sheep Returned By Get All Sheep:");
 		console.log(sheepArr)
 	  return sheepArr
 	}
@@ -46,18 +47,19 @@ class SheepInterface{
     var sheepArr = []
     //var sheepOwnedArr = []
     let sheepOwnedArr = await contract.methods.getSheepsByOwner(ownerId).call((err,result) => {
-       console.log("totes", result)
+       console.log("Sheep Ids Owned By owner: " + ownerId + "Is :"+ result)
        return result
      });
 
     console.log(sheepOwnedArr);
     for(var i = 0; i < sheepOwnedArr.length; i++){
      let tempSheep = await contract.methods.getSheepById(sheepOwnedArr[i]).call((err, resulta) => {
-       console.log("Temp Sheep:" +resulta);
+       console.log("Temp Sheep Created For:" +resulta);
        return resulta
      });
        sheepArr.push(tempSheep)
     }
+    console.log("Returning Sheep Owned By User:");
     console.log(sheepArr)
     return sheepArr
   }
@@ -67,8 +69,7 @@ class SheepInterface{
 			console.log(resulta);
 			return resulta
 		});
- console.log("MEMES" + sheepie);
-	//
+    console.log("Returned Sheep Is: " + sheepie);
 		return sheepie;
 	}
 
@@ -80,18 +81,19 @@ class SheepInterface{
 	async getAllAuctions(){
 	  var auctionArr = []
 	  let totalAuctions = await contract.methods.getTotalAuctions().call((err,result) => {
-			 console.log("totes aucks", result)
+			 console.log("Num Auctions In Existence: ", result)
 			 return result
 		 });
 
 	  console.log(totalAuctions)
 	  for(var i = 0; i < totalAuctions; i++){
 	   let tempAuction = await contract.methods.getAuctionById(i).call((err, resultAuction) => {
-			 console.log("Temp Auctions:" +resultAuction);
+			 console.log("Temp Auction Created For:" +resultAuction);
 			 return resultAuction
 		 });
 			 auctionArr.push(tempAuction)
 	  }
+    console.log("Returning Auctions Returned By Get All Sheep:");
 		console.log(auctionArr)
 	  return auctionArr
 	}
@@ -100,14 +102,13 @@ class SheepInterface{
 	async getAllLiveAuctions(){
 		var auctionArr = []
 		let totalAuctions = await contract.methods.getTotalAuctions().call((err,result) => {
-			 console.log("totes aucks", result)
+			 console.log("Num Auctions In Existence: ", result)
 			 return result
 		 });
 
-		console.log(totalAuctions)
 		for(var i = 0; i < totalAuctions; i++){
 		 let tempAuctions = await contract.methods.getAuctionById(i).call((err, resultAuction) => {
-			 console.log("Temp Auction "+resultAuction);
+			 console.log("Temp Auction Created For:" +resultAuction);
 			 return resultAuction
 		 });
 
@@ -120,7 +121,7 @@ class SheepInterface{
 			 auctionArr.push(tempAuctions)
 		 }
 		}
-		console.log(auctionArr)
+		console.log("Returning Live Auctions:");
 		return auctionArr
 	}
 
@@ -128,34 +129,35 @@ class SheepInterface{
 	async getAllAuctionsByOwner(ownerId){
 		var auctionArr = []
 		let totalAuctions = await contract.methods.getTotalAuctions().call((err,result) => {
-			 console.log("totes aucks owner", result)
+			 console.log("Num Auctions In Existence: ", result)
 			 return result
 		 });
 
 		console.log(totalAuctions)
 		for(var i = 0; i < totalAuctions; i++){
 		 let tempAuctions = await contract.methods.getAuctionById(i).call((err, resultAuction) => {
-			 console.log("Temp Auction OWNERs:" +resultAuction);
-			 //return resultAuction
+			 console.log("Temp Auction Created For:" +resultAuction);
 			 console.log(resultAuction["0"]);
-			if(resultAuction["0"] == ownerId){
+       //CHECK THE VALUE OF THAT CONDITION NO CLUE HERE
+			if(resultAuction["sellerId"] == ownerId){
 				auctionArr.push(resultAuction)
 			}
 		 });
 
 		}
+    console.log("Returning All Auctions Created By Owner: " +ownerId);
 		console.log(auctionArr)
 		return auctionArr
 	}
 
   // Note Returns All Auctions in Existence
+  //COME BACK TO THIS WITH COMMENTS
   async getAuctionById(auctionId){
 		let auction = await contract.methods.getAuctionById(auctionId).call((err, resulta) => {
 			console.log(resulta);
 			return resulta
 		});
- console.log("MEMES" + auction);
-	//
+ console.log("Auction: " + auction);
 		return auction;
 	}
 
@@ -165,50 +167,36 @@ class SheepInterface{
 			console.log(resulta);
 			return resulta
 		});
- console.log("MEMES" + current_price);
-	//
+    console.log("Current Price of Token: " + tokenId + " Is: " + current_price);
 		return current_price;
 	}
 
 	async createAuction (ownerId, sheepId, startPrice, endPrice, duration) {
-    console.log("HOLY MARY MOTHER OF GOD WORK");
+    console.log("Auction Smart Contract Creation Started For SheepId: " + sheepId+ " From User: " +sheepId + " Start Price: " + startPrice + " End Price: " + endPrice +  " For Duration: " + duration);
     //NOTE CHANGE THIS TO ownerOf
 		let isOwner = await contract.methods._owns(ownerId, sheepId).call((err,result) => {
-			 console.log("totes aucks", result)
+			 console.log("User: " + ownerId + " is the Owner of Sheep: " + sheepId + " = " + result)
 			 return result
 		 });
 		//TODO NEED TO SET A CONVERT DURATION TO SECONDS
-	//	console.log("OWNER " + ownerId);
-	//	await contract.methods.ownerOF(sheepId);
-	//	console.log(isOwner);
 		if(isOwner == true){
 			// Transfer some tokens
-		  console.log("ADDRESS Auction Create" + account1 )
-      console.log("Sheep: " +sheepId)
-		  //console.log("Contract Address:: " + contractAddress )
+		  console.log("Creating Sale Auction For Above Parameters - SheepID: " + sheepId );
 			let data = await contract.methods.createSaleAuction(sheepId, startPrice, endPrice, duration, ownerId).encodeABI();
-      console.log(data);
+      console.log("ABI DATA " + data);
 			this.createEthTransaction(data);
 		}
 	}
 
   async registerSheep(ownerId, sheepId) {
-    console.log("HOLY MARY MOTHER OF GOD WORK REGISTER");
+    console.log("Register Sheep Started For SheepId: " + sheepId+ " For User: " +sheepId );
     //NOTE CHANGE THIS TO ownerOf
-
     let isReleased = await contract.methods._owns(releasedUserId, sheepId).call((err,result) => {
-       console.log("totes aucks", result)
+       console.log("Result of released check between:" +releasedUserId + " and SheepId: " + sheepId + " Result of: " result);
        return result
      });
-    //TODO NEED TO SET A CONVERT DURATION TO SECONDS
-  //	console.log("OWNER " + ownerId);
-  //	await contract.methods.ownerOF(sheepId);
-  //	console.log(isOwner);
     if(isReleased == true){
-      // Transfer some tokens
-      console.log("ADDRESS Registering A New Sheep" + account1 )
-      console.log("Sheep: " +sheepId)
-      //console.log("Contract Address:: " + contractAddress )
+      console.log("Registering Sheep Call For Above Parameters - SheepID: " + sheepId );
       let data = await contract.methods.registerReleasedSheep(ownerId,sheepId).encodeABI();
       console.log(data);
       this.createEthTransaction(data);
@@ -216,31 +204,44 @@ class SheepInterface{
   }
 
   async releaseSheep(ownerId, sheepId) {
-    console.log("HOLY MARY MOTHER OF GOD WORK REGISTER");
-    //NOTE CHANGE THIS TO ownerOf
+    console.log("Release Sheep Started For SheepId: " + sheepId+ " From User: " +sheepId );
+    //NOTE CHANGE THIS TO ownerOf -- WHY??
 
     let isOwner = await contract.methods._owns(ownerId, sheepId).call((err,result) => {
-       console.log("totes aucks", result)
+      console.log("Result of ownership check between:" + ownerId + " and SheepId: " + sheepId + " Result of: " result);
        return result
      });
-    //TODO NEED TO SET A CONVERT DURATION TO SECONDS
-  //	console.log("OWNER " + ownerId);
-  //	await contract.methods.ownerOF(sheepId);
-  //	console.log(isOwner);
+
     if(isOwner == true){
-      // Transfer some tokens
-      console.log("ADDRESS Registering A New Sheep" + account1 )
-      console.log("Sheep: " +sheepId)
-      //console.log("Contract Address:: " + contractAddress )
+      console.log("Releasing Sheep Call For Above Parameters - SheepID: " + sheepId );
       let data = await contract.methods.releaseRegisteredSheep(ownerId,sheepId).encodeABI();
       console.log(data);
       this.createEthTransaction(data);
     }
   }
 
+  async transferSheep(ownerId, transferUserId, sheepId) {
+    console.log("Transfer Of Sheep Started For SheepId: " + sheepId+ " From User: " +ownerId + " To User: " +transferUserId );
+    //NOTE CHANGE THIS TO ownerOf -- WHY??
+
+    let isOwner = await contract.methods._owns(ownerId, sheepId).call((err,result) => {
+      console.log("Result of ownership check between:" + ownerId + " and SheepId: " + sheepId + " Result of: " result);
+       return result
+     });
+
+    if(isOwner == true){
+      console.log("Transfer Sheep Call For Above Parameters - SheepID: " + sheepId );
+      let data = await contract.methods.transfer(transferUserId,ownerId,sheepId).encodeABI();
+      console.log(data);
+      this.createEthTransaction(data);
+    }
+  }
+
+//COMEBACK TO THIS
 	async bidOnAuction (sheepId, bidAmount, bidderId) {
     //FIRSTLY THERE IS NO SHEEP ID YET ITS AUCTION ID
     // EITHER PULL IN SHEEP OR SWITCH TO GET AUCTION SELLER
+    //COMEBACK TO THIS
 		let isOwner = await contract.methods._owns(bidderId, sheepId).call((err, resultOwner) => {
 			console.log("Owner :" +resultOwner);
 			return resultOwner
@@ -257,9 +258,11 @@ class SheepInterface{
 		}
 	}
 
+//COMEBACK TO THIS - OWner Issue
   async cancelActiveAuction (sheepId, sellerId) {
     //FIRSTLY THERE IS NO SHEEP ID YET ITS AUCTION ID
     // EITHER PULL IN SHEEP OR SWITCH TO GET AUCTION SELLER
+    //Owner Issue Affects this Also so will need to implement change soon
 		let isOwner = await contract.methods._owns(sellerId, sheepId).call((err, resultOwner) => {
 			console.log("Owner :" +resultOwner);
 			return resultOwner
@@ -276,31 +279,23 @@ class SheepInterface{
 			console.log("transaction made")
 	//	}
 	}
-	//////async getSheepOwner(sheepId){
-		//psudocode needs implemntation
-	//	let sheepOwner = await contract.methods.getSheepById(sheepId).call((err, resulta) => {
-	//		console.log(resulta);
-		//	return resulta
-	//	});
- //console.log("MEMES" + sheepie);
-	//
-	//	return sheepie;
-	//}
-	durationToSeconds(durationString){
+
+
+	//durationToSeconds(durationString){
+    // THIS CODE IS VERY RANDOM - MIGHT DO THIS LOCALLY
 		//Psudo Code clean up
-		var timeVal = durationString.split(1);
-		var unitVal = durationString.split(2);
+	//	var timeVal = durationString.split(1);
+//		var unitVal = durationString.split(2);
 		//ImplmentSwitchStatment here
 		//switch unit:
 
-	}
+//	}
 
 	async createNewSheep (name){
 	  // Transfer some tokens
 	  console.log("ADDRESS" + account1 )
 	  console.log("Contract Address:: " + contractAddress )
 		let createResult = "0x BAAAAAD Creation";
-
 		var data;
 		data = await contract.methods.createRandomSheep(name).encodeABI();
 		this.createEthTransaction(data);
@@ -310,8 +305,7 @@ class SheepInterface{
 		// Transfer some tokens
 	 console.log("ADDRESS" + account1 )
 	 console.log("Contract Address:: " + contractAddress )
-	 let createResult = "0x BAAAAAD Creation";
-	 web3.eth.getTransactionCount(account1, async (err, txCount) => {
+	 let createResult = await web3.eth.getTransactionCount(account1, async (err, txCount) => {
 
 	 const txObject = {
 		 nonce:    web3.utils.toHex(txCount),
@@ -327,23 +321,30 @@ class SheepInterface{
 	 const serializedTx = tx.serialize()
 	 const raw = '0x' + serializedTx.toString('hex')
 
-	var transactionResult = web3.eth.sendSignedTransaction(raw, (err, txHash) => {
+	var transactionResult = await web3.eth.sendSignedTransaction(raw, (err, txHash) => {
 		 console.log('err:', err, 'txHash:', txHash)
 		 createResult = txHash;
 		 return txHash;
 		 // Use this txHash to find the contract on Etherscan!
 	 }).catch(error => {
 		 console.log('Success?', error)
+     createResult = error;
 		 return error;
 
 	 })
 	 // NOTE GOT THIS RETURN WRONG SINCE FUNCTION IS NOT ASYNC - just remove
 	 console.log("Transaction:" +transactionResult)
 	 return transactionResult;
- })
- console.log("Create:" +createResult);
- return createResult;
-	}
+ }).then( result => {
+   console.log("Create:" + result);
+   return result;
+ }).then( resultab => {
+   console.log("Return:" + resultab);
+   return resultab;
+
+ });
+
+}
 
 	async newCreateNewSheep(){
 		var name = "Doyler The Seshhead";
