@@ -192,7 +192,7 @@ class SheepInterface{
     console.log("Register Sheep Started For SheepId: " + sheepId+ " For User: " +sheepId );
     //NOTE CHANGE THIS TO ownerOf
     let isReleased = await contract.methods._owns(releasedUserId, sheepId).call((err,result) => {
-       console.log("Result of released check between:" +releasedUserId + " and SheepId: " + sheepId + " Result of: " result);
+       console.log("Result of released check between:" +releasedUserId + " and SheepId: " + sheepId + " Result of: " +result);
        return result
      });
     if(isReleased == true){
@@ -208,7 +208,7 @@ class SheepInterface{
     //NOTE CHANGE THIS TO ownerOf -- WHY??
 
     let isOwner = await contract.methods._owns(ownerId, sheepId).call((err,result) => {
-      console.log("Result of ownership check between:" + ownerId + " and SheepId: " + sheepId + " Result of: " result);
+      console.log("Result of ownership check between:" + ownerId + " and SheepId: " + sheepId + " Result of: " + result);
        return result
      });
 
@@ -225,7 +225,7 @@ class SheepInterface{
     //NOTE CHANGE THIS TO ownerOf -- WHY??
 
     let isOwner = await contract.methods._owns(ownerId, sheepId).call((err,result) => {
-      console.log("Result of ownership check between:" + ownerId + " and SheepId: " + sheepId + " Result of: " result);
+      console.log("Result of ownership check between:" + ownerId + " and SheepId: " + sheepId + " Result of: " +result);
        return result
      });
 
