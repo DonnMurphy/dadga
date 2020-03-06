@@ -309,7 +309,7 @@ class SheepInterface{
 
 	 const txObject = {
 		 nonce:    web3.utils.toHex(txCount),
-		 gasLimit: web3.utils.toHex(400000), // Raise the gas limit to a much higher amount
+		 gasLimit: web3.utils.toHex(800000), // Raise the gas limit to a much higher amount
 		 gasPrice: web3.utils.toHex(web3.utils.toWei('5', 'gwei')),
 		 to: contractAddress,
 		 data: methodData
