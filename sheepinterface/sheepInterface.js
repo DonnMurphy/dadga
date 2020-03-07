@@ -91,6 +91,15 @@ class SheepInterface{
 			 console.log("Temp Auction Created For:" +resultAuction);
 			 return resultAuction
 		 });
+
+     let sheep = await contract.methods.getSheepById(tempAuction['tokenId']).call(async (err, resultb) => {
+          tempAuction["sheep_name"] = resultb["sheep_name"];
+          tempAuction["sheep_uid"] =  resultb["sheep_uid"];
+          tempAuction["sheep_image"] =  resultb["sheep_imagelink"];
+       return resultb;
+
+     });
+
 			 auctionArr.push(tempAuction)
 	  }
     console.log("Returning Auctions Returned By Get All Sheep:");
@@ -111,6 +120,14 @@ class SheepInterface{
 			 console.log("Temp Auction Created For:" +resultAuction);
 			 return resultAuction
 		 });
+
+     let sheep = await contract.methods.getSheepById(tempAuctions['tokenId']).call(async (err, resultb) => {
+          tempAuctions["sheep_name"] = resultb["sheep_name"];
+          tempAuctions["sheep_uid"] =  resultb["sheep_uid"];
+          tempAuctions["sheep_image"] =  resultb["sheep_imagelink"];
+       return resultb;
+
+     });
 
 		 let isActive = await contract.methods.isAuctionActive(i).call((err, active) => {
 			console.log("Auction:" + i + " is live:"  +active);
@@ -139,11 +156,21 @@ class SheepInterface{
 			 console.log("Temp Auction Created For:" +resultAuction);
 			 console.log(resultAuction["0"]);
        //CHECK THE VALUE OF THAT CONDITION NO CLUE HERE
-			if(resultAuction["sellerId"] == ownerId){
-				auctionArr.push(resultAuction)
-			}
+
 		 });
 
+
+     let sheep = await contract.methods.getSheepById(tempAuctions['tokenId']).call(async (err, resultb) => {
+          tempAuctions["sheep_name"] = resultb["sheep_name"];
+          tempAuctions["sheep_uid"] =  resultb["sheep_uid"];
+          tempAuctions["sheep_image"] =  resultb["sheep_imagelink"];
+
+          if(tempAuctions["sellerId"] == ownerId){
+    				auctionArr.push(tempAuctions)
+    			}
+       return resultb;
+
+     });
 		}
     console.log("Returning All Auctions Created By Owner: " +ownerId);
 		console.log(auctionArr)
@@ -153,12 +180,27 @@ class SheepInterface{
   // Note Returns All Auctions in Existence
   //COME BACK TO THIS WITH COMMENTS
   async getAuctionById(auctionId){
-		let auction = await contract.methods.getAuctionById(auctionId).call((err, resulta) => {
-			console.log(resulta);
-			return resulta
+    let testicles;
+		let auction = await contract.methods.getAuctionById(auctionId).call(async (err, resulta) => {
+      resulta["sheep_namea"] = "meme";
+      return resulta
 		});
- console.log("Auction: " + auction);
-		return auction;
+
+    let sheep = await contract.methods.getSheepById(auction['tokenId']).call(async (err, resultb) => {
+
+      auction["sheep_name"] = resultb["sheep_name"];
+      auction["sheep_uid"] =  resultb["sheep_uid"];
+      auction["sheep_image"] =  resultb["sheep_imagelink"];
+    //  console.log("Death PLease Come for me" + resultb["sheep_name"]);
+  //    testicles = x;
+      return resultb;
+
+    });
+
+    console.log("DEATH AND TAXES AND " + auction["sheep_namea"]);
+  //});
+ //console.log("Auction: " + testicles);
+return auction;
 	}
 
   // Returns Current Price
