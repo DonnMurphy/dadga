@@ -145,6 +145,7 @@ class SheepInterface{
 	// Note Returns All Auctions in Existence
 	async getAllAuctionsByOwner(ownerId){
 		var auctionArr = []
+    console.log("Point A");
 		let totalAuctions = await contract.methods.getTotalAuctions().call((err,result) => {
 			 console.log("Num Auctions In Existence: ", result)
 			 return result
@@ -152,26 +153,51 @@ class SheepInterface{
 
 		console.log(totalAuctions)
 		for(var i = 0; i < totalAuctions; i++){
-		 let tempAuctions = await contract.methods.getAuctionById(i).call((err, resultAuction) => {
-			 console.log("Temp Auction Created For:" +resultAuction);
-			 console.log(resultAuction["0"]);
-       //CHECK THE VALUE OF THAT CONDITION NO CLUE HERE
+      console.log("Point B" + i);
+        let ownedFlag = false;
+		    let tempAuctions = await contract.methods.getAuctionById(i).call((err, resultAuction) => {
+	         console.log("Temp Auction Created For:" +resultAuction);
+           console.log("Point C");
+			     console.log(resultAuction["0"]);
+          //CHECK THE VALUE OF THAT CONDITION NO CLUE HERE
+          console.log(resultAuction);
+            console.log("OWNER CHECK FOR " + resultAuction["seller"] + " - - " + ownerId)
+          if(resultAuction["seller"] === ownerId){
+          //  console.log("OWNER TRUE");
+          //  console.log("Point E");
+          console.log("OWNER CHECK FOR TRUTH")
+            ownedFlag = true;
+          //  return auction;
+          }
+            return resultAuction;
+		    });//).then(auction =>  {
+          //console.log("Point D");
+          //console.log(auction["seller"] + ownerId);
+          //if(auction["sellerId"] === ownerId){
+        //    console.log("OWNER TRUE");
+        //    console.log("Point E");
+        //    ownedFlag = true;
+        //    return auction;
+        //  }
+      //  });
 
-		 });
-
-
+        console.log("JESUS GUCKING CHRIST WORK MAN POST D");
+        console.log("EMEMEMES" + tempAuctions);
      let sheep = await contract.methods.getSheepById(tempAuctions['tokenId']).call(async (err, resultb) => {
+       console.log("Point F");
           tempAuctions["sheep_name"] = resultb["sheep_name"];
           tempAuctions["sheep_uid"] =  resultb["sheep_uid"];
           tempAuctions["sheep_image"] =  resultb["sheep_imagelink"];
-
-          if(tempAuctions["sellerId"] == ownerId){
-    				auctionArr.push(tempAuctions)
-    			}
+          console.log("OWNER CHECK FOR " + tempAuctions["sellerId"] + " - - " + ownerId)
+          if(ownedFlag === true){
+            console.log("Point G");
+            auctionArr.push(tempAuctions)
+          }
        return resultb;
 
      });
 		}
+    console.log("Point H");
     console.log("Returning All Auctions Created By Owner: " +ownerId);
 		console.log(auctionArr)
 		return auctionArr

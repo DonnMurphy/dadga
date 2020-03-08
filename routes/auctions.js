@@ -58,9 +58,9 @@ router.get('/:token_id/price', async (req,res) => {
 
 // Route Returns All Auctions BY Owner
 router.get('/owner/:ownerId', async (req,res) => {
-  console.log("Call For All Auctions From Owner: " + req.params.owner_id);
+  console.log("Call For All Auctions From Owner: " + req.params.ownerId);
   try{
-  var auctions = await sheepFace.getAllAuctionsByOwner(req.params.owner_Id);
+  var auctions = await sheepFace.getAllAuctionsByOwner(req.params.ownerId);
   res.json(auctions);
 }catch(err){
   res.json({message:err});
