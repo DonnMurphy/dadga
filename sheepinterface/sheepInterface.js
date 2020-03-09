@@ -269,10 +269,11 @@ return auction;
       console.log(data);
       this.createEthTransaction(data);
     }
+    return data;
   }
 
   async releaseSheep(ownerId, sheepId) {
-    console.log("Release Sheep Started For SheepId: " + sheepId+ " From User: " +sheepId );
+    console.log("Release Sheep Started For SheepId: " + sheepId+ " From User: " +ownerId );
     //NOTE CHANGE THIS TO ownerOf -- WHY??
 
     let isOwner = await contract.methods._owns(ownerId, sheepId).call((err,result) => {

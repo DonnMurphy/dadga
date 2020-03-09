@@ -65,7 +65,7 @@ router.post('/release', async (req,res) => {
     console.log("Sheep Release Started For SheepId: " + req.body.sheep_id + " From User: " +req.body.user_id);
     let savedSheep = await sheepFace.releaseSheep(req.body.user_id, req.body.sheep_id);
     //NOTE THIS DOES NOT SEEM TO RETURN ANYTHING - SHOULD DO SOMETHING ABOUT THAT
-    console.log(savedSheep);
+    console.log("THIS SHOULD BE RETURNED" + savedSheep);
     res.json(savedSheep);
   }catch (err){
     res.json({message: err});
