@@ -453,6 +453,16 @@
 				"internalType": "string",
 				"name": "_seller",
 				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_tokenName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_tokenImageAsset",
+				"type": "string"
 			}
 		],
 		"name": "createSaleAuction",
